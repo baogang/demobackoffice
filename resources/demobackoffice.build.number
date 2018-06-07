@@ -1,0 +1,9 @@
+#Ant properties
+#Wed Jul 12 09:58:44 CEST 2017
+builddate=20170712 0956
+description=demobackoffice
+name=demobackoffice
+releasedate=20170512 1142
+vendor=hybris
+version=6.4.0.2
+version.api=6.4.0

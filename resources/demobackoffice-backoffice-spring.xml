@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ [y] hybris Platform
+
+ Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+
+ This software is the confidential and proprietary information of SAP
+ ("Confidential Information"). You shall not disclose such Confidential
+ Information and shall use it only in accordance with the terms of the
+ license agreement you entered into with SAP.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cng="http://www.hybris.com/cockpitng/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.hybris.com/cockpitng/spring
+           http://www.hybris.com/cockpitng/spring/cng-spring.xsd">
+
+	<bean id="demobackofficeService" class="com.demo.services.DemobackofficeService" />
+
+	<bean id="demobackofficeLabelLocator" class="com.hybris.cockpitng.util.labels.ResourcesLabelLocator" scope="singleton" init-method="init" lazy-init="false">
+  		<property name="location" value="/demobackoffice-backoffice-labels/"/>
+  		<property name="name" value="labels"/>
+  	</bean>
+
+	<cng:property-extender bean="objectFacadeStrategyRegistry" property="defaultStrategy">
+		<ref bean="demoDefaultFacadeStrategy"/>
+	</cng:property-extender>
+
+	<bean class="com.hybris.cockpitng.dataaccess.util.DataAccessStrategyExtender"
+		  lazy-init="false"
+		  init-method="addAll"
+		  destroy-method="removeAll">
+		<property name="objectFacadeStrategies">
+			<list>
+				<ref bean="demoOrderFacadeStrategy"/>
+			</list>
+		</property>
+		<property name="objectFacadeStrategyRegistry" ref="objectFacadeStrategyRegistry"/>
+	</bean>
+
+	<bean id="demoOrderFacadeStrategy" class="com.demo.backoffice.cockpitng.dataaccess.facades.DemoOrderObjectFacadesStrategy" parent="platformObjectFacadeStrategy"/>
+
+	<bean id="demoDefaultFacadeStrategy" class="com.demo.backoffice.cockpitng.dataaccess.facades.DemoPlatformObjectFacadeStrategy" parent="platformObjectFacadeStrategy"/>
+
+</beans>
